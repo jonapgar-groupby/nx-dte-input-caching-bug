@@ -1,0 +1,40 @@
+{
+  "name": "org",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "first":{
+      "executor": "nx:run-commands",
+      "inputs":[{
+        "runtime":"/bin/echo -n \"${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\""
+      }],
+      "outputs": ["{workspaceRoot}/output.txt"],
+      "options": {
+        "parallel": false,
+        "commands": [
+          "echo \"${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\" > output.txt",
+          "cat output.txt"
+        ]
+      }
+    },
+    "second":{
+      "dependsOn": ["first"],
+      "executor": "nx:run-commands",
+      "inputs": [
+        "{workspaceRoot}/buster",
+        {
+          "dependentTasksOutputFiles":"**/output.txt"
+        }
+      ],
+      "outputs": [],
+      "options": {
+        "parallel": false,
+        "commands": [
+          "cat output.txt"
+        ]
+      }
+    }
+  }
+}
