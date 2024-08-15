@@ -6,6 +6,7 @@
   "tags": [],
   "targets": {
     "first":{
+      "cache": true,
       "executor": "nx:run-commands",
       "inputs":[{
         "runtime":"/bin/echo -n \"${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\""
@@ -20,6 +21,7 @@
       }
     },
     "second":{
+      "cache": true,
       "dependsOn": ["first"],
       "executor": "nx:run-commands",
       "inputs": [
